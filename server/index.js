@@ -200,6 +200,51 @@ app.get("/getTicketById", async (req, res) => {
 //   res.send("Hello");
 // });
 
+const getSurveyCount = async (startDate, endDate, type) => {
+  console.log(`Getting ${type} count for ${startDate} to ${endDate}`);
+  const satisfactionQuery =
+    type === "csat"
+      ? "satisfaction:good satisfaction:goodwithcomment"
+      : "satisfaction:bad satisfaction:badwithcomment";
+
+  const params = {
+    query: `type:ticket created>=${startDate} created<=${endDate} ${satisfactionQuery}`,
+  };
+
+  console.log("Query:", params.query);
+  const response = await axios.get(url2, { params, auth });
+  console.log("Response:", response.data);
+  return response.data;
+};
+
+app.get("/getSurveyCount", async (req, res) => {
+  try {
+    const { startDate, endDate, type } = req.query;
+    console.log("Received request for survey count:", {
+      startDate,
+      endDate,
+      type,
+    });
+
+    if (!startDate || !endDate || !type) {
+      return res.status(400).json({
+        error: "Missing required parameters",
+        received: { startDate, endDate, type },
+      });
+    }
+
+    const result = await getSurveyCount(startDate, endDate, type);
+    console.log("Survey count result:", result);
+    res.json(result);
+  } catch (error) {
+    console.error(`Error in getSurveyCount (${req.query.type}):`, error);
+    res.status(500).json({
+      error: `Failed to fetch ${req.query.type} tickets`,
+      message: error.message,
+    });
+  }
+});
+
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 export default app;
