@@ -232,19 +232,99 @@ const TicketCounter = () => {
                   <Typography variant="h3">{ticketCount}</Typography>
                 </Paper>
 
-                <Grid container spacing={2}>
-                  {Object.entries(priorityCounts).map(([priority, count]) => (
-                    <Grid item xs={12} sm={6} key={priority}>
-                      <PriorityCard
-                        priority={priority}
-                        count={count}
-                        icon={getPriorityIcon(priority)}
-                      />
-                    </Grid>
-                  ))}
+                <Grid
+                  container
+                  spacing={2}
+                  sx={{
+                    mb: 6,
+                    justifyContent: "center",
+                    width: "fit-content",
+                    margin: "0 auto",
+                    "& .MuiGrid-item": {
+                      display: "flex",
+                      justifyContent: "center",
+                      flex: "0 0 auto",
+                      width: "auto",
+                    },
+                  }}
+                >
+                  <Grid item>
+                    <PriorityCard
+                      priority="urgent"
+                      count={priorityCounts.urgent}
+                      icon={getPriorityIcon("urgent")}
+                    />
+                  </Grid>
+                  <Grid item>
+                    <PriorityCard
+                      priority="high"
+                      count={priorityCounts.high}
+                      icon={getPriorityIcon("high")}
+                    />
+                  </Grid>
+                  <Grid item>
+                    <PriorityCard
+                      priority="normal"
+                      count={priorityCounts.normal}
+                      icon={getPriorityIcon("normal")}
+                    />
+                  </Grid>
+                  <Grid item>
+                    <PriorityCard
+                      priority="low"
+                      count={priorityCounts.low}
+                      icon={getPriorityIcon("low")}
+                    />
+                  </Grid>
                 </Grid>
 
-                <SurveySection csatCount={csatCount} dsatCount={dsatCount} />
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    gap: "16px",
+                    width: "fit-content",
+                    margin: "0 auto",
+                    mt: 4,
+                  }}
+                >
+                  <Paper
+                    sx={{
+                      p: 1.5,
+                      background:
+                        "linear-gradient(45deg, #4CAF50 30%, #81C784 90%)",
+                      color: "white",
+                      boxShadow: "0 2px 4px rgba(76, 175, 80, .3)",
+                      borderRadius: "8px",
+                      minWidth: "120px",
+                    }}
+                  >
+                    <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                      CSAT
+                    </Typography>
+                    <Typography variant="h6" sx={{ mt: 0.5 }}>
+                      {csatCount}
+                    </Typography>
+                  </Paper>
+                  <Paper
+                    sx={{
+                      p: 1.5,
+                      background:
+                        "linear-gradient(45deg, #f44336 30%, #e57373 90%)",
+                      color: "white",
+                      boxShadow: "0 2px 4px rgba(244, 67, 54, .3)",
+                      borderRadius: "8px",
+                      minWidth: "120px",
+                    }}
+                  >
+                    <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                      DSAT
+                    </Typography>
+                    <Typography variant="h6" sx={{ mt: 0.5 }}>
+                      {dsatCount}
+                    </Typography>
+                  </Paper>
+                </Box>
               </Box>
             )}
           </Stack>
